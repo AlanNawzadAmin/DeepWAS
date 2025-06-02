@@ -1,0 +1,15 @@
+checkpoints/
+outputs/
+wandb/
+logs/
+assets/
+**/__pycache__
+**/.ipynb_checkpoints
+*.gif
+slurm_scripts/
+slurm_out/
+run_notebooks/
+sparse_ld_download/
+data/
+src/tracks/
+lightning_logs/

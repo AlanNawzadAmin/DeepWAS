@@ -53,3 +53,10 @@ These can all be run in parallel.
 #### Getting summary statistics
 
 To compute the mean and standard deviation of each track (so that we can standardize tracks during training), run ```python experiments/compute_track_stats.py```.
+
+## Running semi-synthetic simulations
+To run a semi-sythetic simulation you can run the following command:
+```shell
+py train.py data.name=simRandInit data.max_n_snps=1000 data.n_workers=3 train.n_epoch=10 architecture.model=enformer model.loss=wasp train.lr=0.0002 data.other_args.model=enrich
+```
+Above we are using an Enformer model to approximate a hard enrichment fuction.

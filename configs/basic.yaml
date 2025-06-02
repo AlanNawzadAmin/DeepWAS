@@ -1,0 +1,86 @@
+data:
+  tracks_include: ["phylo", 'big_encode', 'fantom']
+  train_chrom: []
+  test_chrom: [8]
+  data_path: "/scratch/aa11803/data"
+  name: "simRandInit"
+  window_size_data: 16
+  N: 407527
+  n_workers: 2
+  max_n_snps: 1000
+  test_max_n_snps: ${data.max_n_snps}
+  sumstats_type: all
+  drop_nan_beta: true
+  beta_inds: 4
+  maf_threshold: 0.0
+  use_R_tilde: false
+  fix_sumstats_D: false
+  use_z: true
+  chunk_size: 100
+  processed_gen_dir: dense_ld_mats_psd_t0
+  ld_dist_thresh: 1000000
+  other_args:
+    N: ${data.N}
+    M: ${model.M}
+    log_sigma: -3.0
+    temperature: 1.0
+    R_identity: false
+    include_D: ${model.include_D}
+    model: enrich
+    window_size: ${data.window_size_data}
+    enrich_window: ${data.window_size_data}
+    enrichment_inds: [0, 1, 2, 3, 4, 5]
+    enrichment_values: [-5, 0, 0, 0, 0, 0]
+    enrichment_thresh: [-0.12, 0, 0.001, -0.001, 0.001, -0.001]
+    test_dataset_size: 50
+    train_dataset_size: 250
+    n_tracks_genno: 6
+    n_tracks_anno: 1
+
+model:
+  seed: 21
+  eps: 1e-4
+  restart: false
+  M: 3000000
+  include_D: 0.7
+  loss: wasp_new
+  beta_eval_thresh: 0.0
+
+architecture:
+  model: enformer
+  window_size: ${data.window_size_data}
+  dim: 384
+  heads: 2
+  depth: 2
+  num_downsamples: ${num_downsampler:${data.window_size_data},${architecture.target_length}}
+  target_length: 2
+  n_attention: 1
+  use_checkpointing: true
+  average_geno: true
+  link: exp
+  enrich_window: 30
+  enrichment_inds: [0, 2, 7, 12]
+  enrichment_values: [0.7, 0.5, 1.37, 0.5]
+  enrichment_thresh: [0, 0, -20, -10]
+
+train:
+  n_epoch: 10
+  lr: 2e-4
+  lr_sigma: 0.0
+  log_every_n_steps: 100
+  grad_clip_val: 0.2
+  weight_decay: 0
+  accumulate: ${data.n_workers}
+  scheduler: "default"
+  ema: false
+  start_log_sigma: -3.0
+  use_double: true
+  train_D: false
+  tol: 1e-6
+  max_iters: 100
+  vtol: 2e-1
+  rank_pct: 0.10
+
+wandb:
+  use: true
+  project: "fast_gen"
