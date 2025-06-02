@@ -1,0 +1,55 @@
+## Processing the track data
+
+### Downloading
+
+Note these downloads may take up to several hours on a standard cpu and make up several terabytes of data.
+
+#### ENCODE
+
+Run ```python scripts/download_func_tracks.py```, ```python scripts/download_func_tracks_tfs.py```, and ```python scripts/download_func_tracks_chip_not_tf.py``` to download the data.
+Afterwards, run ```python scripts/merge_eCLIP.py``` to merge the eCLIP tracks.
+
+#### Phylogeny
+
+Run ```python scripts/download_phylo_tracks.py```.
+
+#### FANTOM
+
+Run ```python scripts/download_fantom_tracks.py```.
+
+#### dbNSFP
+
+Visit ```https://www.dbnsfp.org/download``` to request to download dbNSFP.
+Note the code assumes version 5.1 -- some features may be missing in earlier or later versions.
+Move ```dbNSFP5.1a.zip``` into a folder called ```data/tracks/dbNSFP/```.
+Then uncompress the files with
+
+```
+cd data/tracks/dbNSFP
+
+unzip dbNSFP5.1a.zip
+cd dbNSFP5.1a
+
+for file in dbNSFP5.1a_variant.chr*.gz; do
+    echo "Decompressing $file..."
+    gunzip -v "$file"
+done
+
+cd ../../../..
+python scripts/filter_dbNSFP.py
+```
+
+### Preprocessing
+
+Run these scripts after downloading all the data above.
+Note these preprocessing jobs can take up to several hours on a standard cpu.
+
+#### Extracting BigWigs into .npy files
+
+You need to run ```python make_hdf5s.py r t``` for all chromosomes ```r=0, ..., 21``` and your desired subset of features ```t```.
+```t=0``` is ```["phylo", "big_encode", "fantom"]```, ```t=1``` is ```["phylo"]```, and ```t=2``` is ```["phylo", "fantom"]```.
+These can all be run in parallel.
+
+#### Getting summary statistics
+
+To compute the mean and standard deviation of each track (so that we can standardize tracks during training), run ```python experiments/compute_track_stats.py```.
