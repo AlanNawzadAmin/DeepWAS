@@ -1,4 +1,4 @@
-# DeepWAS
+# Training Flexible Models of Genetic Variant Effects from Functional Annotations using Accelerated Linear Algebra
 
 
 
