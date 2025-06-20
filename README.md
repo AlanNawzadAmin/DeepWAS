@@ -1,3 +1,18 @@
+# DeepWAS
+
+
+
+[Alan N. Amin*](https://alannawzadamin.github.io), [Andres Potapczynski*](https://www.andpotap.com), [Andrew Gordon Wilson](https://cims.nyu.edu/~andrewgw/).
+
+[Paper](https://openreview.net/pdf?id=oOtdWiLb1e)
+
+<p align="center">
+  <img width="451" alt="concept" src="https://github.com/user-attachments/files/20839961/main.fig.pdf" />
+</p>
+
+
+DeepWAS trains deep functionally informed priors on large public GWAS data. It does so efficiently by using an itereative algorithm to calculate the likelihood and its gradient.
+
 ## Processing the track data
 
 ### Downloading
