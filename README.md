@@ -2,7 +2,7 @@
 
 
 
-[Alan N. Amin*](https://alannawzadamin.github.io), [Andres Potapczynski*](https://www.andpotap.com), [Andrew Gordon Wilson](https://cims.nyu.edu/~andrewgw/). * equal contribution
+[Alan N. Amin](https://alannawzadamin.github.io)\*, [Andres Potapczynski](https://www.andpotap.com)\*, [Andrew Gordon Wilson](https://cims.nyu.edu/~andrewgw/). * equal contribution
 
 [Paper](https://openreview.net/pdf?id=oOtdWiLb1e)
 
