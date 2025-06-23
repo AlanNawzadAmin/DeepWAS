@@ -7,9 +7,8 @@
 [Paper](https://openreview.net/pdf?id=oOtdWiLb1e)
 
 <p align="center">
-  <img width="451" alt="concept" src="https://github.com/user-attachments/files/20839961/main.fig.pdf" />
+  <img width="451" alt="concept" src="https://github.com/user-attachments/assets/35e4c0d7-4ae1-4cc3-aa31-98e53f6d1263" />
 </p>
-
 
 DeepWAS trains deep functionally informed priors on large public GWAS data. It does so efficiently by using an itereative algorithm to calculate the likelihood and its gradient.
 
