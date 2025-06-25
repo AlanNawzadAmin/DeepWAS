@@ -4,7 +4,7 @@
 
 [Alan N. Amin](https://alannawzadamin.github.io)\*, [Andres Potapczynski](https://www.andpotap.com)\*, [Andrew Gordon Wilson](https://cims.nyu.edu/~andrewgw/). * equal contribution
 
-[Paper](https://openreview.net/pdf?id=oOtdWiLb1e)
+[Paper](https://arxiv.org/abs/2506.19598)
 
 <p align="center">
   <img width="451" alt="concept" src="https://github.com/user-attachments/assets/35e4c0d7-4ae1-4cc3-aa31-98e53f6d1263" />
