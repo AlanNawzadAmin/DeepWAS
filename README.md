@@ -12,6 +12,29 @@
 
 DeepWAS trains deep functionally informed priors on large public GWAS data. It does so efficiently by using an itereative algorithm to calculate the likelihood and its gradient.
 
+## Processing the public statistic data
+
+Note these steps may take up to several hours on a standard cpu and make up several terabytes of data.
+
+### Variant associations
+
+Download the UKBB variant associations from ```https://console.cloud.google.com/storage/browser/broad-alkesgroup-public-requester-pays/UKBB/UKBB_409K``` into a folder ```data/ukbb_sumstats/UKBB_409K/```.
+Preprocess this data by running ```python scripts/process_pheno_data.py```.
+
+### LD matrices
+
+Download the contents of ```s3://broad-alkesgroup-ukbb-ld/UKBB_LD/``` into a folder ```data/ukbb_windows```.
+Place all files ending in ```.gz``` into a subdirectory ```snplists``` and all ending in ```.npz``` into a subdirectory ```ld_mats```; discard files ending in ```.npz2```.
+Make one more directory ```dense_ld_mats_psd_t0``` for later preprocessing.
+```
+mkdir -p data/ukbb_windows/snplists
+mkdir -p data/ukbb_windows/ld_mats
+mkdir -p data/ukbb_windows/dense_ld_mats_psd_t0
+find data/ukbb_windows -maxdepth 1 -name "*.gz" -exec mv {} data/ukbb_windows/snplists/ \;
+find data/ukbb_windows -maxdepth 1 -name "*.npz" -exec mv {} data/ukbb_windows/ld_mats/ \;
+find data/ukbb_windows -name "*.npz2" -delete
+```
+
 ## Processing the track data
 
 ### Downloading
@@ -68,9 +91,28 @@ These can all be run in parallel.
 
 To compute the mean and standard deviation of each track (so that we can standardize tracks during training), run ```python experiments/compute_track_stats.py```.
 
+## Running the model
+
+### Final preprocessing 
+
+The first epoch of the model also preprocesses and saves the track and LD matrices in formats that can be loaded quickly.
+It is therefore very slow.
+Run ```scripts/preprocess_first_epoch.py -r chr_num``` to preprocess chromosome ```chr_num=0, ..., 21```.
+
+Finally, we need to go through the epoch once to calculate the mean and standard deviation of the track statistics so we can normalize them.
+Run ```python scripts/compute_track_stats.py```.
+
+### Running a model on UKBB
+
+To train a deep model on height data run
+```shell
+python train.py --config-name=basic_ukbb
+```
+This command has low GPU utilization for all but the largest models -- it uses the Cholesky factorization for the loss.
+
 ## Running semi-synthetic simulations
 To run a semi-sythetic simulation you can run the following command:
 ```shell
-py train.py data.name=simRandInit data.max_n_snps=1000 data.n_workers=3 train.n_epoch=10 architecture.model=enformer model.loss=wasp train.lr=0.0002 data.other_args.model=enrich
+python train.py data.name=simRandInit data.max_n_snps=1000 data.n_workers=3 train.n_epoch=10 architecture.model=enformer model.loss=wasp train.lr=0.0002 data.other_args.model=enrich
 ```
 Above we are using an Enformer model to approximate a hard enrichment fuction.

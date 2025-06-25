@@ -17,7 +17,6 @@ from pytorch_lightning.utilities import rank_zero_only
 
 import wandb
 from data import get_dataloaders
-from ema import EMA
 from src.fast_genetics.utils.train_fns import consistency_check, flatten_dict
 from src.models.ldsr_trainer import LDSRTrainer
 from src.models.nets import get_model_setup
@@ -124,7 +123,7 @@ def train(cfg: DictConfig) -> None:
         output_dir = "run"
     lightning_model = model
 
-    callbacks = [EMA(0.9999)] * cfg.train.ema
+    callbacks = []
     callbacks.append(ModelCheckpoint(dirpath=f"checkpoints/{output_dir}", save_on_train_epoch_end=False))
 
     trainer = Trainer(

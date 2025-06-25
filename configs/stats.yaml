@@ -1,0 +1,27 @@
+data:
+  tracks_include: ["phylo", "big_encode", "fantom"]
+  train_chrom: []
+  test_chrom: [21, 22]
+  data_path: "data"
+  name: "ukbb"
+  window_size_data: 128
+  N: 407527
+  n_workers: 8
+  max_n_snps: 20000
+  test_max_n_snps: 100000
+  sumstats_type: all
+  drop_nan_beta: true
+  beta_inds: 4
+  maf_threshold: 0.0001
+  use_R_tilde: false
+  fix_sumstats_D: false
+  use_z: true
+  chunk_size: 10
+  processed_gen_dir: dense_ld_mats_psd_t0
+  ld_dist_thresh: 0
+
+model:
+  seed: 21
+
+extra:
+  stop_at: 3000

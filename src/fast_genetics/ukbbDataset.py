@@ -21,7 +21,7 @@ lo = LiftOver("hg19", "hg38")
 class UKBBDataset(TrackDatasetHDF5):
     def __init__(
         self,
-        data_path="/scratch/aa11803/data/",
+        data_path="data/",
         window_size_data=100,
         print_=False,
         chrom=np.arange(22) + 1,

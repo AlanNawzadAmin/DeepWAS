@@ -36,11 +36,8 @@ class TrackDataset(Dataset):
         **kwargs,
     ):
         self.data_path = Path(data_path)
-        # self.data_path_tracks = Path("/vast/aa11803/data")
-        self.data_path_tracks = Path("/scratch/aa11803/data")
-        # self.data_path_tracks = "/state/partition1/aa11803/data"
+        self.data_path_tracks = Path("data")
         dbnsfp_path = self.data_path / Path("tracks/dbNSFP/dbNSFP5.1a")
-        track_stats = pickle.load(open(self.data_path / "../data/tracks/track_stats_2682.pkl", "rb"))
 
         self.fix_sumstats_D = fix_sumstats_D
         self.use_z = use_z
@@ -75,6 +72,7 @@ class TrackDataset(Dataset):
         ]
         self.dbnsfp_col_names = self.dbnsfp_col_names_load + D_as_feature * ["std", "EAF", "LLD"]
         try:
+            track_stats = pickle.load(open("data/tracks/track_stats_2682.pkl", "rb"))
             geno_idx = [track_stats["geno_tracks"].index(name) for name in self.track_names]
             anno_idx = [track_stats["anno_tracks"].index(name) for name in self.dbnsfp_col_names]
             self.geno_mean = torch.tensor(track_stats["geno_mean"][geno_idx])[None, :, None]
@@ -191,7 +189,7 @@ def hash_string(text):
 class TrackDatasetHDF5(TrackDataset):
     def __init__(
         self,
-        create_hdf5=False,
+        create_hdf5=True,
         lazy_loading=True,
         **kwargs,
     ):
